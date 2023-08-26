@@ -2,8 +2,9 @@ const keep_alive = require('./keep_alive.js')
 
 require('isomorphic-fetch');
 const GD = require('gd.js');
+const fs = require('fs');
 const https = require('https');
-const { Client, Intents, Modal, TextInputComponent, MessageActionRow, MessageButton } = require('discord.js');
+const { Client, Intents, Modal, TextInputComponent, MessageActionRow, MessageButton, Collection } = require('discord.js');
 const { ActivityType } = require('discord-api-types/v10');
 
 const guildId = process.env.GUILD_ID;
@@ -24,6 +25,22 @@ var reviewsChannel;
 var successesChannel;
 var discardsChannel;
 
+const requestCooldownMS = 1000 * 60 * 60 * 6;
+var cdExpirationTimes;
+
+try {
+  const data = fs.readFileSync('./cd.json', 'utf8');
+  let map = new Map(JSON.parse(data));
+  cdExpirationTimes = new Collection(map);
+  
+  const now = Date.now();
+  cdExpirationTimes = cdExpirationTimes.filter(expirationTime => expirationTime > now);
+  cdExpStr = JSON.stringify(Array.from(cdExpirationTimes.entries()));
+  fs.writeFile("./cd.json", cdExpStr, (err)=>{}); 
+} catch (err) {
+  cdExpirationTimes = new Collection();
+}
+
 client.once('ready', async () => {
   const guild = await client.guilds.fetch(guildId);
   modsChannel = client.channels.cache.get(modsChannelID);
@@ -42,8 +59,19 @@ client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
 
   const { commandName, options } = interaction;
+  const now = Date.now();
 
   if (commandName === 'req') {
+    if (cdExpirationTimes.has(interaction.user.id)) {
+    	const expirationTime = cdExpirationTimes.get(interaction.user.id);
+    
+    	if (now < expirationTime) {
+    		const expiredTimestamp = Math.round(expirationTime / 1000);
+    		await interaction.reply({ content: `Please wait, you will be able to create new request <t:${expiredTimestamp}:R>.`, ephemeral: true });
+        return;
+    	}
+    }
+    
     const reviewOpt = options.getString('review');
 
     const levelIDInput = new TextInputComponent()
@@ -121,6 +149,12 @@ client.on('interactionCreate', async interaction => {
       if (body == -1)
         interaction.reply({ content: 'Failed to send a level request: level not found!', ephemeral: true });
       else {
+        const now = Date.now();
+        cdExpirationTimes = cdExpirationTimes.filter(expirationTime => expirationTime > now);
+        cdExpirationTimes.set(interaction.user.id, now + requestCooldownMS);
+        cdExpStr = JSON.stringify(Array.from(cdExpirationTimes.entries()));
+        fs.writeFile("./cd.json", cdExpStr, (err)=>{}); 
+        
         const creatorStr = body.author == null ? 'Anonymous Creator' : body.author
         const levelNameStr = '"' + body.name + '"'
         const diffStr = body.difficulty
