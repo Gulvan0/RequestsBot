@@ -2,6 +2,7 @@ const {getCooldownExpirationTS} = require('../../utils/io.js');
 const {formatTS, replyEphemeral} = require('../../utils/discord_wrapper.js');
 const {sendRequestModal} = require('../../components.js');
 const {CustomID} = require('../../utils/custom_id.js');
+const {config} = require('../../utils/io.js');
 
 async function handle(interaction, options)
 {
@@ -10,6 +11,13 @@ async function handle(interaction, options)
     if (cdExpirationTS)
     {
         const replyMsg = 'Please wait, you will be able to create new request ' + formatTS(cdExpirationTS);
+        replyEphemeral(interaction, replyMsg);
+        return;
+    }
+
+    if (!config.requests_enabled)
+    {
+        const replyMsg = 'Sorry, the requests are temporarily closed';
         replyEphemeral(interaction, replyMsg);
         return;
     }
