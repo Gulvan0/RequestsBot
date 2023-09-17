@@ -23,6 +23,11 @@ const commands = [
         .setDescription('Submit a level request')
         .setDescriptionLocalization('ru', 'Отправить уровень на ревью')
         .addStringOption(reqReviewOption)
+        .toJSON(),
+    new SlashCommandBuilder()
+        .setName('refresh')
+        .setDescription('Reset request cooldowns')
+        .setDescriptionLocalization('ru', 'Обнулить КД реквестов')
         .toJSON()
 ]
 

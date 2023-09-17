@@ -1,0 +1,11 @@
+request_cooldown_mins: 4320
+requests_enabled: true
+channel_ids:
+  pending: "1065623745307357204"
+  review_text: "1065681370422186045"
+  levels_to_send: "1152538385592889364"
+  author_notifications:
+    discarded: "1061617605451972740"
+    pre_approved: "1061617543565025320"
+    sent_to_robtop: "1061617543565025320"
+  

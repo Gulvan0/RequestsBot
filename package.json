@@ -1,5 +1,5 @@
 {
-  "name": "requests-bot", 
+  "name": "requests-bot",
   "version": "1.0.0",
   "dependencies": {
     "@discordjs/builders": "^1.4.0",
@@ -8,6 +8,7 @@
     "discord.js": "^13.12.0",
     "gd.js": "^0.2.13",
     "isomorphic-fetch": "^3.0.0",
+    "js-yaml": "^4.1.0",
     "node-fetch": "^3.3.0"
   }
 }
