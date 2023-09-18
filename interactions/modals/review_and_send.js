@@ -1,8 +1,8 @@
-const {replyEphemeral, getTextInputValue, sendMessage, deleteMessage} = require('../../utils/discord_wrapper.js');
-const {CustomID} = require('../../utils/custom_id.js');
-const {markAsSentToRobTopBtn, discardPreApprovedBtn, buttonRow} = require('../../components.js');
+const { replyEphemeral, getTextInputValue, sendMessage, deleteMessage } = require('../../utils/discord_wrapper.js');
+const { CustomID } = require('../../utils/custom_id.js');
+const { markAsSentToRobTopRBtn, markAsSentToRobTopFBtn, discardPreApprovedBtn, buttonRow } = require('../../components.js');
 
-async function handle(interaction, customID)
+async function handle(interaction, customID) 
 {
     const levelID = customID.getOption('levelID');
     const mention = customID.getOption('mention');
@@ -23,13 +23,16 @@ async function handle(interaction, customID)
         mention: mention
     };
 
-    const robSentBtnCustomID = CustomID.explicit('robSentBtn', btnOptions);
-    const robSentBtn = markAsSentToRobTopBtn(robSentBtnCustomID);
+    const robSentRBtnCustomID = CustomID.explicit('robSentRBtn', btnOptions);
+    const robSentFBtnCustomID = CustomID.explicit('robSentFBtn', btnOptions);
     
+    const robSentRBtn = markAsSentToRobTopRBtn(robSentRBtnCustomID);
+    const robSentFBtn = markAsSentToRobTopFBtn(robSentFBtnCustomID);
+
     const robDiscardedBtnCustomID = CustomID.explicit('robDiscardedBtn', btnOptions);
     const robDiscardedBtn = discardPreApprovedBtn(robDiscardedBtnCustomID);
 
-    const btns = [robSentBtn, robDiscardedBtn];
+    const btns = [robSentRBtn, robSentFBtn, robDiscardedBtn];
     const components = [buttonRow(btns)];
     sendMessage('levels_to_send', `${levelID}`, components);
 

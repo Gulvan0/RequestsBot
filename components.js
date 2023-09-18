@@ -1,8 +1,8 @@
 const { Modal, TextInputComponent, MessageActionRow, MessageButton } = require('discord.js');
 
-const {CustomID} = require('./utils/custom_id.js');
+const { CustomID } = require('./utils/custom_id.js');
 
-function levelIDInput()
+function levelIDInput() 
 {
     return new TextInputComponent()
         .setCustomId('levelIDInput')
@@ -13,7 +13,7 @@ function levelIDInput()
         .setStyle('SHORT');
 }
 
-function ytLinkInput()
+function ytLinkInput() 
 {
     return new TextInputComponent()
         .setCustomId('ytLinkInput')
@@ -25,7 +25,7 @@ function ytLinkInput()
         .setStyle('SHORT');
 }
 
-function additionalInfoInput()
+function additionalInfoInput() 
 {
     return new TextInputComponent()
         .setCustomId('additionalInfoInput')
@@ -37,7 +37,7 @@ function additionalInfoInput()
         .setStyle('PARAGRAPH');
 }
 
-function sendRequestModal(customID)
+function sendRequestModal(customID) 
 {
     const firstActionRow = new MessageActionRow()
         .addComponents(levelIDInput());
@@ -52,7 +52,7 @@ function sendRequestModal(customID)
         .addComponents(firstActionRow, secondActionRow, thirdActionRow);
 }
 
-function sendToKazvixxBtn(customID)
+function sendToKazvixxBtn(customID) 
 {
     return new MessageButton()
         .setCustomId(customID.toStr())
@@ -60,7 +60,7 @@ function sendToKazvixxBtn(customID)
         .setStyle('SUCCESS');
 }
 
-function reviewAndSendToKazvixxBtn(customID)
+function reviewAndSendToKazvixxBtn(customID) 
 {
     return new MessageButton()
         .setCustomId(customID.toStr())
@@ -68,7 +68,7 @@ function reviewAndSendToKazvixxBtn(customID)
         .setStyle('SUCCESS');
 }
 
-function reviewAndDiscardBtn(customID)
+function reviewAndDiscardBtn(customID) 
 {
     return new MessageButton()
         .setCustomId(customID.toStr())
@@ -76,7 +76,7 @@ function reviewAndDiscardBtn(customID)
         .setStyle('DANGER');
 }
 
-function discardBtn(customID)
+function discardBtn(customID) 
 {
     return new MessageButton()
         .setCustomId(customID.toStr())
@@ -84,13 +84,13 @@ function discardBtn(customID)
         .setStyle('DANGER');
 }
 
-function buttonRow(buttons)
+function buttonRow(buttons) 
 {
     return new MessageActionRow()
         .addComponents(buttons);
 }
 
-function reviewTextPlaceholder(english)
+function reviewTextPlaceholder(english) 
 {
     if (english)
         return 'Write a review for this level here (in English)';
@@ -98,7 +98,7 @@ function reviewTextPlaceholder(english)
         return 'Напишите ревью уровня (на русском языке)';
 }
 
-function reviewTextInput(english)
+function reviewTextInput(english) 
 {
     return new TextInputComponent()
         .setCustomId('reviewInput')
@@ -110,7 +110,7 @@ function reviewTextInput(english)
         .setStyle('PARAGRAPH');
 }
 
-function discardReasonInput(required)
+function discardReasonInput(required) 
 {
     return new TextInputComponent()
         .setCustomId('reasonInput')
@@ -122,7 +122,7 @@ function discardReasonInput(required)
         .setStyle('PARAGRAPH');
 }
 
-function reviewAndSendModal(english, customID)
+function reviewAndSendModal(english, customID) 
 {
     const reviewRow = new MessageActionRow()
         .addComponents(reviewTextInput(english));
@@ -133,7 +133,7 @@ function reviewAndSendModal(english, customID)
         .addComponents(reviewRow);
 }
 
-function reviewAndDiscardModal(english, customID)
+function reviewAndDiscardModal(english, customID) 
 {
     const reviewTextRow = new MessageActionRow()
         .addComponents(reviewTextInput(english));
@@ -146,7 +146,7 @@ function reviewAndDiscardModal(english, customID)
         .addComponents(reviewTextRow, reasonRow);
 }
 
-function discardModal(customID)
+function discardModal(customID) 
 {
     const reasonRow = new MessageActionRow()
         .addComponents(discardReasonInput(true));
@@ -157,15 +157,23 @@ function discardModal(customID)
         .addComponents(reasonRow);
 }
 
-function markAsSentToRobTopBtn(customID)
+function markAsSentToRobTopRBtn(customID) 
 {
     return new MessageButton()
         .setCustomId(customID.toStr())
-        .setLabel('Mark as sent')
+        .setLabel('Mark as Sent (Starrate)')
         .setStyle('SUCCESS');
 }
 
-function discardPreApprovedBtn(customID)
+function markAsSentToRobTopFBtn(customID) 
+{
+    return new MessageButton()
+        .setCustomId(customID.toStr())
+        .setLabel('Mark as Sent (Featured)')
+        .setStyle('SUCCESS');
+}
+
+function discardPreApprovedBtn(customID) 
 {
     return new MessageButton()
         .setCustomId(customID.toStr())
@@ -185,5 +193,6 @@ module.exports.reviewAndSendModal = reviewAndSendModal;
 module.exports.reviewAndDiscardModal = reviewAndDiscardModal;
 module.exports.discardModal = discardModal;
 
-module.exports.markAsSentToRobTopBtn = markAsSentToRobTopBtn;
+module.exports.markAsSentToRobTopRBtn = markAsSentToRobTopRBtn;
+module.exports.markAsSentToRobTopFBtn = markAsSentToRobTopFBtn;
 module.exports.discardPreApprovedBtn = discardPreApprovedBtn;

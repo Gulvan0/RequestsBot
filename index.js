@@ -1,6 +1,6 @@
 const keep_alive = require('./keep_alive.js');
 
-const {bindCommandHandler, bindModalSubmissionHandler, bindButtonHandler, startClient} = require('./utils/discord_wrapper.js');
+const { bindCommandHandler, bindModalSubmissionHandler, bindButtonHandler, startClient } = require('./utils/discord_wrapper.js');
 
 
 const c_req = require('./interactions/commands/req.js');
@@ -15,7 +15,8 @@ const b_reviewAndSend = require('./interactions/buttons/review_and_send.js');
 const b_reviewAndDiscard = require('./interactions/buttons/review_and_discard.js');
 const b_send = require('./interactions/buttons/send.js');
 const b_discard = require('./interactions/buttons/discard.js');
-const b_robSent = require('./interactions/buttons/rob_sent.js');
+const b_robSentR = require('./interactions/buttons/rob_sent_rate');
+const b_robSentF = require('./interactions/buttons/rob_sent_feat');
 const b_robDiscarded = require('./interactions/buttons/rob_discarded.js');
 
 
@@ -34,7 +35,8 @@ bindButtonHandler('rnsBtn', b_reviewAndSend.handle);
 bindButtonHandler('rndBtn', b_reviewAndDiscard.handle);
 bindButtonHandler('sBtn', b_send.handle);
 bindButtonHandler('dBtn', b_discard.handle);
-bindButtonHandler('robSentBtn', b_robSent.handle);
+bindButtonHandler('robSentRBtn', b_robSentR.handle);
+bindButtonHandler('robSentFBtn', b_robSentF.handle);
 bindButtonHandler('robDiscardedBtn', b_robDiscarded.handle);
 
 
