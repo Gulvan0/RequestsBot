@@ -2,7 +2,7 @@ const {CustomID} = require('../../utils/custom_id.js');
 const {isValidLink} = require('../../utils/youtube.js');
 const {replyEphemeral, getTextInputValue, sendMessage} = require('../../utils/discord_wrapper.js');
 const {getLevel} = require('../../utils/gd.js');
-const {putOnCooldown} = require('../../utils/io.js');
+const {putOnCooldown, setUrl, pendingRequestExists} = require('../../utils/io.js');
 const {sendToKazvixxBtn, reviewAndSendToKazvixxBtn, reviewAndDiscardBtn, discardBtn, buttonRow} = require('../../components.js');
 
 async function onLevelData(interaction, levelID, ytLink, additionalInfo, reviewOpt, data)
@@ -10,6 +10,13 @@ async function onLevelData(interaction, levelID, ytLink, additionalInfo, reviewO
     if (!data)
     {
         const replyMsg = 'Failed to send a level request: level not found!';
+        replyEphemeral(interaction, replyMsg);
+        return;
+    }
+    else if (data.featured || data.epic)
+    {
+        const levelQuality = data.epic? 'epic' : 'featured';
+        const replyMsg = `Failed to send a level request: level is already ${levelQuality}!`;
         replyEphemeral(interaction, replyMsg);
         return;
     }
@@ -29,6 +36,8 @@ async function onLevelData(interaction, levelID, ytLink, additionalInfo, reviewO
     msgLines.push(`YT Link: ${ytLink}`);
     msgLines.push(`Review: ${reviewStr}`);
     msgLines.push(`Requested by: ${mention}`);
+
+    setUrl(levelID, ytLink);
     
     if (additionalInfo)
     {
@@ -89,15 +98,20 @@ async function handle(interaction, customID)
     
     const reviewOpt = customID.getOption('reviewOpt');
 
-    if (isValidLink(ytLink))
+    if (pendingRequestExists(levelID))
     {
-        const onData = onLevelData.bind(null, interaction, levelID, ytLink, additionalInfo, reviewOpt);
-        getLevel(levelID, onData);
+        const replyMsg = 'Please wait until the previous request for this level gets resolved';
+        replyEphemeral(interaction, replyMsg);
     }
-    else
+    else if (!isValidLink(ytLink))
     {
         const replyMsg = 'Failed to send a level request: invalid YouTube link!';
         replyEphemeral(interaction, replyMsg);
+    }
+    else
+    {
+        const onData = onLevelData.bind(null, interaction, levelID, ytLink, additionalInfo, reviewOpt);
+        getLevel(levelID, onData);
     }
 }
 

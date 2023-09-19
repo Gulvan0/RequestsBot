@@ -1,6 +1,6 @@
 const keep_alive = require('./keep_alive.js');
 
-const { bindCommandHandler, bindModalSubmissionHandler, bindButtonHandler, startClient } = require('./utils/discord_wrapper.js');
+const {bindCommandHandler, bindModalSubmissionHandler, bindButtonHandler, startClient} = require('./utils/discord_wrapper.js');
 
 
 const c_req = require('./interactions/commands/req.js');

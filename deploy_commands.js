@@ -1,6 +1,6 @@
-const { SlashCommandBuilder, SlashCommandIntegerOption, SlashCommandStringOption } = require('@discordjs/builders');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
+const {SlashCommandBuilder, SlashCommandIntegerOption, SlashCommandStringOption} = require('@discordjs/builders');
+const {REST} = require('@discordjs/rest');
+const {Routes} = require('discord-api-types/v9');
 
 const clientId = process.env.CLIENT_ID;
 const guildId  = process.env.GUILD_ID;

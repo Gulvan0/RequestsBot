@@ -1,4 +1,5 @@
 const {replyEphemeral, getTextInputValue, sendMessage, deleteMessage} = require('../../utils/discord_wrapper.js');
+const {dropUrl} = require('../../utils/io.js');
 
 async function handle(interaction, customID)
 {
@@ -7,10 +8,11 @@ async function handle(interaction, customID)
     const msgID = customID.getOption('msgID');
     const reason = getTextInputValue(interaction, 'reasonInput');
 
-    const discardMsgText = `${mention}, your level request (ID: ${levelID}) was discarded. Reason:\n${reason}`;
+    dropUrl(levelID);
 
     deleteMessage('pending', msgID);
 
+    const discardMsgText = `${mention}, your level request (ID: ${levelID}) was discarded. Reason:\n${reason}`;
     sendMessage('discarded', discardMsgText);
 
     replyEphemeral(interaction, 'Success');

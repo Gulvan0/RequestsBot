@@ -1,4 +1,5 @@
 const {replyEphemeral, getTextInputValue, sendMessage, getChannelID, deleteMessage} = require('../../utils/discord_wrapper.js');
+const {dropUrl} = require('../../utils/io.js');
 
 async function handle(interaction, customID)
 {
@@ -17,6 +18,8 @@ async function handle(interaction, customID)
         discardMsgText += 'Reason:\n' + reason;
     else
         discardMsgText += `See review in <#${reviewChannelID}> for the possible reasons`;
+
+    dropUrl(levelID);
 
     deleteMessage('pending', msgID);
 

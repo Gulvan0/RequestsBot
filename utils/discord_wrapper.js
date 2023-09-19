@@ -1,5 +1,5 @@
-const { Client, Intents } = require('discord.js');
-const { ActivityType } = require('discord-api-types/v10');
+const {Client, Intents} = require('discord.js');
+const {ActivityType} = require('discord-api-types/v10');
 
 const {config} = require('./io.js');
 const {CustomID} = require('./custom_id.js');

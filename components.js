@@ -1,6 +1,6 @@
-const { Modal, TextInputComponent, MessageActionRow, MessageButton } = require('discord.js');
+const {Modal, TextInputComponent, MessageActionRow, MessageButton} = require('discord.js');
 
-const { CustomID } = require('./utils/custom_id.js');
+const {CustomID} = require('./utils/custom_id.js');
 
 function levelIDInput() 
 {

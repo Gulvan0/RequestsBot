@@ -1,5 +1,5 @@
-const { reviewAndDiscardModal } = require('../../components.js');
-const { CustomID } = require('../../utils/custom_id.js');
+const {reviewAndDiscardModal} = require('../../components.js');
+const {CustomID} = require('../../utils/custom_id.js');
 
 async function handle(interaction, buttonCustomID) 
 {
