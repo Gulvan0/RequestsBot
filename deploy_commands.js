@@ -1,4 +1,4 @@
-const {SlashCommandBuilder, SlashCommandIntegerOption, SlashCommandStringOption} = require('@discordjs/builders');
+const {SlashCommandBuilder, SlashCommandUserOption, SlashCommandStringOption} = require('@discordjs/builders');
 const {REST} = require('@discordjs/rest');
 const {Routes} = require('discord-api-types/v9');
 
@@ -17,6 +17,12 @@ reqReviewOption = new SlashCommandStringOption()
         {name: 'Just submit a level (no review will be provided)', value: 'NONE'}
     )
 
+refreshUserOption = new SlashCommandUserOption()
+    .setName('user')
+    .setDescription('Which user should have its cooldown refreshed (reset all cooldowns if not specified)')
+    .setDescriptionLocalization('ru', 'Кому сбросить перезарядку (если не указывать, кулдауны будут обнулены у всех участников)')
+    .setRequired(false)
+
 const commands = [
     new SlashCommandBuilder()
         .setName('req')
@@ -28,6 +34,12 @@ const commands = [
         .setName('refresh')
         .setDescription('Reset request cooldowns')
         .setDescriptionLocalization('ru', 'Обнулить КД реквестов')
+        .addUserOption(refreshUserOption)
+        .toJSON(),
+    new SlashCommandBuilder()
+        .setName('list')
+        .setDescription('List all pending requests')
+        .setDescriptionLocalization('ru', 'Перечислить активные реквесты')
         .toJSON()
 ]
 

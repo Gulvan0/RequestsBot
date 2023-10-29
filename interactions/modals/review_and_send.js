@@ -7,13 +7,14 @@ async function handle(interaction, customID)
 {
     const levelID = customID.getOption('levelID');
     const mention = customID.getOption('mention');
+    const modMention = interaction.user.toString();
     const msgID = customID.getOption('msgID');
     const review = getTextInputValue(interaction, 'reviewInput');
 
-    const reviewMsgText = `${mention}, ${interaction.user.toString()} wrote a review of your level (ID: ${levelID}):` + '\n\n' + review;
+    const reviewMsgText = `${mention}, ${modMention} wrote a review of your level (ID: ${levelID}):` + '\n\n' + review;
     sendMessage('review_text', reviewMsgText);
 
-    approve(levelID, mention, msgID);
+    approve(levelID, mention, modMention, msgID);
 
     replyEphemeral(interaction, 'Success');
 }

@@ -1,9 +1,14 @@
-const {resetCooldowns} = require('../../utils/io.js');
+const {resetCooldowns, resetCooldown} = require('../../utils/io.js');
 const {replyEphemeral} = require('../../utils/discord_wrapper.js');
 
 async function handle(interaction, options)
 {
-    resetCooldowns();
+    const user = options.getUser('user');
+    
+    if (user)
+        resetCooldown(user.id);
+    else
+        resetCooldowns();
     
     replyEphemeral(interaction, 'Success');
 }

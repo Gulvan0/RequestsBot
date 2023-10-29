@@ -5,6 +5,7 @@ const {bindCommandHandler, bindModalSubmissionHandler, bindButtonHandler, startC
 
 const c_req = require('./interactions/commands/req.js');
 const c_refresh = require('./interactions/commands/refresh.js');
+const c_list = require('./interactions/commands/list.js');
 
 const m_request = require('./interactions/modals/request.js');
 const m_reviewAndSend = require('./interactions/modals/review_and_send.js');
@@ -25,6 +26,7 @@ const b_robDiscarded = require('./interactions/buttons/rob_discarded.js');
 
 bindCommandHandler('req', c_req.handle);
 bindCommandHandler('refresh', c_refresh.handle);
+bindCommandHandler('list', c_list.handle);
 
 bindModalSubmissionHandler('reqModal', m_request.handle);
 bindModalSubmissionHandler('rnsModal', m_reviewAndSend.handle);

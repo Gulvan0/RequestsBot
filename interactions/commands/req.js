@@ -1,8 +1,7 @@
-const {getCooldownExpirationTS} = require('../../utils/io.js');
+const {getCooldownExpirationTS, config} = require('../../utils/io.js');
 const {formatTS, replyEphemeral} = require('../../utils/discord_wrapper.js');
 const {sendRequestModal} = require('../../components.js');
 const {CustomID} = require('../../utils/custom_id.js');
-const {config} = require('../../utils/io.js');
 
 async function handle(interaction, options)
 {

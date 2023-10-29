@@ -1,6 +1,6 @@
 const {replyEphemeral, sendMessage} = require('../../utils/discord_wrapper.js');
 const {CustomID} = require('../../utils/custom_id.js');
-const {dropUrl} = require('../../utils/io.js');
+const {dropRequestInfo} = require('../../utils/io.js');
 
 async function handle(interaction, buttonCustomID)
 {
@@ -10,7 +10,7 @@ async function handle(interaction, buttonCustomID)
     
     sendMessage('discarded', `${mention}, your pre-approved level (ID: ${levelID}) was discarded. Responsible moderator: ${modMention}`);
 
-    dropUrl(levelID);
+    dropRequestInfo(levelID);
 
     await interaction.message.delete();
     

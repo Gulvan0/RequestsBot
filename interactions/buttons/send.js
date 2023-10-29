@@ -5,9 +5,10 @@ async function handle(interaction, buttonCustomID)
 {
     const levelID = buttonCustomID.getOption('levelID');
     const mention = buttonCustomID.getOption('mention');
+    const modMention = interaction.user.toString();
     const msgID = interaction.message.id;
 
-    approve(levelID, mention, msgID);
+    approve(levelID, mention, modMention, msgID);
 
     replyEphemeral(interaction, 'Success');
 }

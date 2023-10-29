@@ -59,6 +59,11 @@ async function replyEphemeral(interaction, msg)
     await interaction.reply({content: msg, ephemeral: true});
 }
 
+async function followUpEphemeral(interaction, msg)
+{
+    await interaction.followUp({content: msg, ephemeral: true});
+}
+
 async function sendMessage(channelSlug, msg, components)
 {
     const channel = channels.get(channelSlug);
@@ -174,6 +179,7 @@ module.exports.bindButtonHandler = bindButtonHandler;
 module.exports.getTextInputValue = getTextInputValue;
 
 module.exports.replyEphemeral = replyEphemeral;
+module.exports.followUpEphemeral = followUpEphemeral;
 module.exports.sendMessage = sendMessage;
 module.exports.deleteMessage = deleteMessage;
 

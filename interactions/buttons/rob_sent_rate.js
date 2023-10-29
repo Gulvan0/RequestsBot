@@ -1,6 +1,5 @@
 const {replyEphemeral, sendMessage} = require('../../utils/discord_wrapper.js');
-const {CustomID} = require('../../utils/custom_id.js');
-const {setUrl} = require('../../utils/io.js');
+const {markCompletedRequest} = require('../../utils/io.js');
 
 async function handle(interaction, buttonCustomID) 
 {
@@ -10,7 +9,7 @@ async function handle(interaction, buttonCustomID)
 
     sendMessage('sent_to_robtop', `Congratulations ${mention}, your level (ID: ${levelID}) was successfully sent to RobTop for rate. Responsible moderator: ${modMention}`);
 
-    setUrl(levelID, "");
+    markCompletedRequest(levelID);
 
     await interaction.message.delete();
 

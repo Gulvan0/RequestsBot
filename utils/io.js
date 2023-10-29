@@ -9,8 +9,8 @@ const cdData = fs.readFileSync('./cd.json', 'utf8');
 const cdMap = new Map(JSON.parse(cdData));
 var cdExpirationTimes = new Collection(cdMap);
 
-const youtubeUrlsData = fs.readFileSync('./urls.json', 'utf8');
-const youtubeUrls = new Map(JSON.parse(youtubeUrlsData));
+const requestInfoData = fs.readFileSync('./requests.json', 'utf8');
+const requestInfo = new Map(JSON.parse(requestInfoData));
 
 function isFuture(timestamp)
 {
@@ -30,37 +30,71 @@ function dumpCooldowns()
     fs.writeFile("./cd.json", serializedItemArray, (err) => {});
 }
 
-function pendingRequestExists(levelID)
+function dumpRequests()
 {
-    return youtubeUrls.has(levelID);
-}
-
-function dumpUrls()
-{
-    const itemArray = Array.from(youtubeUrls.entries());
+    const itemArray = Array.from(requestInfo.entries());
     const serializedItemArray = JSON.stringify(itemArray);
     
-    fs.writeFile("./urls.json", serializedItemArray, (err) => {});
+    fs.writeFile("./requests.json", serializedItemArray, (err) => {});
 }
 
-function getUrl(levelID)
+function getRequestInfos()
 {
-    if (!youtubeUrls.has(levelID))
+    return requestInfo;
+}
+
+function getRequestStatus(levelID)
+{
+    if (!requestInfo.has(levelID))
+        return "CAN_BE_REQUESTED";
+    else
+    {
+        const obj = requestInfo.get(levelID);
+
+        if (!Object.hasOwn(obj, "url"))
+            return "COMPLETE";
+        else
+            return "PENDING";
+    }
+}
+
+function getRequestInfo(levelID)
+{
+    if (!requestInfo.has(levelID))
         return null;
     else
-        return youtubeUrls.get(levelID);
+        return requestInfo.get(levelID);
 }
 
-function setUrl(levelID, url)
+function addRequestInfo(levelID, url, levelName, levelAuthor, requestAuthor)
 {
-    youtubeUrls.set(levelID, url);
-    dumpUrls();
+    requestInfo.set(levelID, {
+        url: url, 
+        levelName: levelName, 
+        levelAuthor: levelAuthor,
+        requestAuthor: requestAuthor,
+        created: Date.now()
+    });
+    dumpRequests();
 }
 
-function dropUrl(levelID)
+function markCompletedRequest(levelID)
 {
-    youtubeUrls.delete(levelID);
-    dumpUrls();
+    requestInfo.set(levelID, {});
+    dumpRequests();
+}
+
+function dropRequestInfo(levelID)
+{
+    requestInfo.delete(levelID);
+    dumpRequests();
+}
+
+function resetCooldown(userID)
+{
+    cdExpirationTimes.delete(userID);
+    
+    dumpCooldowns();
 }
 
 function resetCooldowns()
@@ -106,10 +140,12 @@ module.exports.config = config;
 
 module.exports.getCooldownExpirationTS = getCooldownExpirationTS;
 module.exports.putOnCooldown = putOnCooldown;
+module.exports.resetCooldown = resetCooldown;
 module.exports.resetCooldowns = resetCooldowns;
 
-module.exports.pendingRequestExists = pendingRequestExists;
-
-module.exports.getUrl = getUrl;
-module.exports.setUrl = setUrl;
-module.exports.dropUrl = dropUrl;
+module.exports.getRequestInfos = getRequestInfos;
+module.exports.getRequestStatus = getRequestStatus;
+module.exports.getRequestInfo = getRequestInfo;
+module.exports.addRequestInfo = addRequestInfo;
+module.exports.markCompletedRequest = markCompletedRequest;
+module.exports.dropRequestInfo = dropRequestInfo;
